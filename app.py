@@ -69,7 +69,7 @@ async def serve_frontend():
     except FileNotFoundError:
         return HTMLResponse(content="<h1>Frontend not found</h1><p>Please ensure index.html is in the same directory as app.py</p>", status_code=404)
 
-LLM_TIMEOUT_SECONDS = 175
+LLM_TIMEOUT_SECONDS = int(os.getenv("LLM_TIMEOUT_SECONDS", 150))
 
 # -----------------------------
 # Tools
@@ -390,7 +390,7 @@ You must:
 1. Follow the provided rules exactly.
 2. Return only a valid JSON object — no extra commentary or formatting.
 3. The JSON must contain:
-   - "questions": [ keys from the questions file ]
+   - "questions": [ keys from the questions file"]
    - "code": "..." (Python code that creates a dict called `results` with each question string as a key and its computed answer as the value)
 4. Your Python code will run in a sandbox with:
    - pandas, numpy, matplotlib available
@@ -544,7 +544,7 @@ async def analyze_data(
                 "2) DO NOT call scrape_url_to_dataframe() or fetch any external data.\n"
                 "3) Use only the uploaded dataset for answering questions.\n"
                 "4) Produce a final JSON object with keys:\n"
-                '   - "questions": [ ... original question strings ... ]\n'
+                '   - "questions": keys provided in questions txt file\n'
                 '   - "code": "..."  (Python code that fills `results` with exact question strings as keys)\n'
                 "5) For plots: use plot_to_base64() helper to return base64 image data under 100kB.\n"
             )
@@ -575,11 +575,8 @@ async def analyze_data(
 
         if "error" in result:
             raise HTTPException(500, detail=result["error"])
-        
-       
-        list_of_answers = list(result.values())
-        print(f"List of answers: {list_of_answers}")
-        return JSONResponse(content=list_of_answers)
+
+        return JSONResponse(content=result)
 
     except HTTPException as he:
         raise he
@@ -631,7 +628,8 @@ def run_agent_safely_unified(llm_input: str, pickle_path: str = None) -> Dict:
             return {"error": f"Execution failed: {exec_result.get('message')}", "raw": exec_result.get("raw")}
 
         results_dict = exec_result.get("result", {})
-        return {q: results_dict.get(q, "Answer not found") for q in questions}
+        print(f"Results dict: {results_dict}")  
+        return results_dict
 
     except Exception as e:
         logger.exception("run_agent_safely_unified failed")

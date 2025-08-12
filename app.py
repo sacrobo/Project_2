@@ -390,7 +390,7 @@ You must:
 1. Follow the provided rules exactly.
 2. Return only a valid JSON object — no extra commentary or formatting.
 3. The JSON must contain:
-   - "questions": [ list of original question strings exactly as provided ]
+   - "questions": [ keys from the questions file ]
    - "code": "..." (Python code that creates a dict called `results` with each question string as a key and its computed answer as the value)
 4. Your Python code will run in a sandbox with:
    - pandas, numpy, matplotlib available

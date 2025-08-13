@@ -380,8 +380,8 @@ You must:
 1. Follow the provided rules exactly.
 2. Return only a valid JSON object — no extra commentary or formatting.
 3. The JSON must contain:
-   - "questions": [ keys from the questions file"]
-   - "code": "..." (Python code that creates a dict called `results` with each question string as a key and its computed answer as the value)
+   - "questions":  keys providedin the questions file
+   - "code": "..." (Python code that creates a dict called `results` with exact keys present in question file and its computed answer as the value)
 4. Your Python code will run in a sandbox with:
    - pandas, numpy, matplotlib available
    - A helper function `plot_to_base64(max_bytes=100000)` for generating base64-encoded images under 100KB.
@@ -513,8 +513,8 @@ async def analyze_data(request: Request):
                 "2) DO NOT call scrape_url_to_dataframe() or fetch any external data.\n"
                 "3) Use only the uploaded dataset for answering questions.\n"
                 "4) Produce a final JSON object with keys:\n"
-                '   - "questions": keys provided in questions txt file \n'
-                '   - "code": "..."  (Python code that fills `results` with exact question strings as keys)\n'
+                '   - "questions": exact keys provided in questions txt file \n'
+                '   - "code": "..."  (Python code that fills `results` with exact question keys)\n'
                 "5) For plots: use plot_to_base64() helper to return base64 image data under 100kB.\n"
             )
         else:
@@ -522,8 +522,8 @@ async def analyze_data(request: Request):
                 "Rules:\n"
                 "1) If you need web data, CALL scrape_url_to_dataframe(url).\n"
                 "2) Produce a final JSON object with keys:\n"
-                '   - "questions": keys provided in questions txt file \n'
-                '   - "code": "..."  (Python code that fills `results` with exact question strings as keys)\n'
+                '   - "questions": exact keys provided in questions txt file \n'
+                '   - "code": "..."  (Python code that fills `results` with exact question keys)\n'
                 "3) For plots: use plot_to_base64() helper to return base64 image data under 100kB.\n"
             )
 

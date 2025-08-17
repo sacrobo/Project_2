@@ -420,7 +420,7 @@ else:
 
     # plot_to_base64 helper that tries to reduce size under 100_000 bytes
     helper = r'''
-    def plot_to_base64(max_bytes=99000):
+    def plot_to_base64(max_bytes=100000):
         buf = BytesIO()
         plt.savefig(buf, format='png', bbox_inches='tight', dpi=100)
         buf.seek(0)
